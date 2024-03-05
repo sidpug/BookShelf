@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingVertical="20dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="20dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_book_item_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="6dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_book_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_book_item_rightIcon"
+        app:layout_constraintStart_toEndOf="@+id/iv_book_item_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04000002"
+        tools:text="Book Title here" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_book_item_rating"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/yellow"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_book_item_rightIcon"
+        app:layout_constraintStart_toEndOf="@+id/iv_book_item_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_book_item_title"
+        app:layout_constraintVertical_bias="0.04000002"
+        tools:text="4.5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_book_published"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/grey"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_book_item_rightIcon"
+        app:layout_constraintStart_toEndOf="@+id/iv_book_item_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_book_item_rating"
+        app:layout_constraintVertical_bias="0.16000003"
+        tools:text="Published in 2022" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_book_item_rightIcon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

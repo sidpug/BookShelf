@@ -1,0 +1,106 @@
+plugins {
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id 'com.google.devtools.ksp'
+}
+
+android {
+    namespace 'com.sidpug.bookshelf'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.sidpug.bookshelf"
+        minSdk 29
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false
+            crunchPngs true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        staging {
+            minifyEnabled false
+            debuggable = true
+            applicationIdSuffix ".staging"
+        }
+        debug {
+            minifyEnabled false
+            debuggable = true
+            applicationIdSuffix ".debug"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    viewBinding {
+        enabled = true
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.activity.ktx
+    implementation libs.androidx.fragment
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.security.crypto.ktx
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+
+    //Coroutines
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.play.services
+
+    // To use Kotlin coroutines with lifecycle-aware components
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.androidx.lifecycle.extensions
+
+    //Retrofit
+    implementation libs.retrofit
+
+    //GSON converter
+    implementation libs.converter.gson
+
+    // Coil
+    implementation libs.coil.compose
+
+    // OkHttp
+    implementation libs.okhttp
+
+    implementation libs.androidx.material3
+
+    //biometrics
+    implementation libs.androidx.biometric
+
+    implementation libs.androidx.room.room.runtime2
+    ksp libs.androidx.room.room.compiler
+    implementation libs.androidx.room.paging
+    implementation libs.androidx.room.ktx
+
+    // for adding recyclerview
+    implementation libs.androidx.recyclerview
+
+    // for adding cardview
+    implementation libs.androidx.cardview
+
+}
