@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class BookListViewModel(private val application: Application) : AndroidViewModel(application) {
     private val _bookList = MutableLiveData<List<Book>>()
     val bookList: LiveData<List<Book>> = _bookList
+    private val appDb = AppDatabase.getInstance(application)
 
     suspend fun getBookList() {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -26,14 +27,11 @@ class BookListViewModel(private val application: Application) : AndroidViewModel
             ApiUtils.book().getBookList().onEach { book ->
                 AppDatabase.getInstance(application.applicationContext).bookDao().insertAll(book)
             }
-            val data = fetchbookListFromDB()
-            data.forEach {
-                it.publishedChapterDate
-            }
+            val data = fetchBookListFromDB()
             _bookList.postValue(data)
         }
     }
 
-    private suspend fun fetchbookListFromDB() =
-        AppDatabase.getInstance(application.applicationContext).bookDao().getAll()
+    private suspend fun fetchBookListFromDB() =
+        appDb.bookDao().getAll()
 }

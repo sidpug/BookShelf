@@ -6,6 +6,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorTeal">#9BD3CF</color>
     <color name="yellow">#FFC107</color>
     <color name="grey">#747272</color>
+    <color name="colorGrey">#ccc</color>
+    <color name="ratingColor">#FFD700</color>
 </resources>

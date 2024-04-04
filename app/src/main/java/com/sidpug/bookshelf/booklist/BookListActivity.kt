@@ -84,10 +84,9 @@ class BookListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         // This will pass the ArrayList to our Adapter
 
         listAdapter = BookListAdapter(this, data) { item ->
-            val bundle: Bundle = Bundle()
-            bundle.putString("id",item.id)
-            launchActivity<BookDetailActivity>(
-            )
+            launchActivity<BookDetailActivity>{
+                putExtra("id", item.id)
+            }
         }
         // Setting the Adapter with the recyclerview
         binding.recyclerview.apply {

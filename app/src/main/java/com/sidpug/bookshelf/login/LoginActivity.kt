@@ -19,9 +19,12 @@ import com.sidpug.bookshelf.databinding.ActivityLoginBinding
 import com.sidpug.bookshelf.login.biometriclogin.BiometricPromptUtils
 import com.sidpug.bookshelf.login.biometriclogin.CryptographyManager
 import com.sidpug.bookshelf.login.biometriclogin.EnableBiometricLoginActivity
+import com.sidpug.bookshelf.signup.SignUpActivity
 import com.sidpug.bookshelf.utility.CIPHERTEXT_WRAPPER
+import com.sidpug.bookshelf.utility.Preferences
 import com.sidpug.bookshelf.utility.SHARED_PREFS_FILENAME
 import com.sidpug.bookshelf.utility.launchActivity
+import com.sidpug.bookshelf.utility.setBoolean
 import com.sidpug.bookshelf.utility.showLog
 
 class LoginActivity : AppCompatActivity() {
@@ -49,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        initClickListners()
         val canAuthenticate = BiometricManager.from(applicationContext).canAuthenticate(
             BiometricManager.Authenticators.DEVICE_CREDENTIAL
         )
@@ -67,6 +71,12 @@ class LoginActivity : AppCompatActivity() {
 
         if (ciphertextWrapper == null) {
             setupForLoginWithPassword()
+        }
+    }
+
+    private fun initClickListners() {
+        binding.signupText.setOnClickListener {
+            launchActivity<SignUpActivity>()
         }
     }
 
@@ -174,6 +184,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateApp(successMsg: String) {
+        Preferences.instance.setBoolean("isLogged", true)
         launchActivity<BookListActivity> {
             finish()
         }

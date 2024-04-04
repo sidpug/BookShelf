@@ -50,9 +50,7 @@ class BookListAdapter(
         (holder as BookHolder).apply {
             val currentItem = list[position]
             title.text = currentItem.title
-            val formattedRating = currentItem.rating?.let {
-                BigDecimal(it * 0.05).setScale(1, RoundingMode.HALF_EVEN).toString()
-            }
+            val formattedRating = currentItem.rating?.getRating()
             rating.text = formattedRating
             year.text = currentItem.year?.let { DateHelperInstance.getDateTime(it) }
             if (currentItem.icon != null) {
@@ -100,3 +98,6 @@ class BookListAdapter(
 
 
 }
+
+fun Double.getRating(): String =
+    BigDecimal(this * 0.05).setScale(1, RoundingMode.HALF_EVEN).toString()

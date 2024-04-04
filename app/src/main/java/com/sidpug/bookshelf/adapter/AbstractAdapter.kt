@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sidpug.bookshelf.model.BookItems
 import com.sidpug.bookshelf.utility.showLog
 
 abstract class AbstractAdapter(
-    private val itemList: MutableList<BookItems>, private val isDummy: Boolean = false
+    private val itemList: MutableList<*>, private val isDummy: Boolean = false
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var isLoaderVisible = false

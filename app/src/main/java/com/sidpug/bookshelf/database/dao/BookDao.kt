@@ -12,6 +12,9 @@ interface BookDao {
     @Query("SELECT * FROM book")
     suspend fun getAll(): List<Book>
 
+    @Query("SELECT * FROM book where id = :id")
+    suspend fun getBook(id: String): Book?
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(vararg books: Book)
 

@@ -22,8 +22,11 @@
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="use_biometrics">Use biometrics</string>
+    <string name="signup_text">Sign Up?</string>
     <string name="name">Name</string>
 
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
+    <string name="this_is_used_to_add_tags_or_annotation_to_a_book">This is used to add tags or annotation to a book</string>
+    <string name="enter_a_tag">Enter a tag</string>
 </resources>

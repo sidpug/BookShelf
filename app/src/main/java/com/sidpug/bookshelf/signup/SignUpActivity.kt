@@ -1,6 +1,7 @@
 package com.sidpug.bookshelf.signup
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
@@ -30,15 +31,20 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         val loggedIn = Preferences.instance.getBooleanData("isLogged", false)
+        Log.d("${TAG} -isLoggedIn", loggedIn.toString())
+        val isUserCreated = Preferences.instance.getBooleanData("isUserCreated", false)
+        Log.d("${TAG} -isUserCreatedIn", isUserCreated.toString())
         if (loggedIn) {
+            // User is logged in
             launchActivity<BookListActivity> {
                 finish()
             }
-        }
-        val isUserCreated = Preferences.instance.getBooleanData("isUserCreated", false)
-        if (isUserCreated) {
-            launchActivity<LoginActivity> {
-                finish()
+        } else {
+            if (isUserCreated) {
+                // User is created but not logged in
+                launchActivity<LoginActivity> {
+                    finish()
+                }
             }
         }
         initObservers()

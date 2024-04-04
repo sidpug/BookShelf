@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sidpug.bookshelf.R
+import java.util.UUID
 
 class LoginViewModel : ViewModel() {
 
@@ -17,8 +18,6 @@ class LoginViewModel : ViewModel() {
     fun onLoginDataChanged(username: String, password: String) {
         if (!isUserNameValid(username)) {
             _loginForm.value = FailedLoginFormState(usernameError = R.string.invalid_username)
-        } else if (!isPasswordValid(password)) {
-            _loginForm.value = FailedLoginFormState(passwordError = R.string.invalid_password)
         } else {
             _loginForm.value = SuccessfulLoginFormState(isDataValid = true)
         }
@@ -50,7 +49,8 @@ class LoginViewModel : ViewModel() {
             // right here:
 
             BookShelfAppUser.username = username
-            BookShelfAppUser.fakeToken = java.util.UUID.randomUUID().toString()
+            BookShelfAppUser.userId = UUID.randomUUID().toString()
+            BookShelfAppUser.fakeToken = UUID.randomUUID().toString()
             _loginResult.value = LoginResult(true)
         } else {
             _loginResult.value = LoginResult(false)
