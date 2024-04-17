@@ -2,6 +2,7 @@ package com.sidpug.bookshelf.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +24,7 @@ import com.sidpug.bookshelf.signup.SignUpActivity
 import com.sidpug.bookshelf.utility.CIPHERTEXT_WRAPPER
 import com.sidpug.bookshelf.utility.Preferences
 import com.sidpug.bookshelf.utility.SHARED_PREFS_FILENAME
+import com.sidpug.bookshelf.utility.getBooleanData
 import com.sidpug.bookshelf.utility.launchActivity
 import com.sidpug.bookshelf.utility.setBoolean
 import com.sidpug.bookshelf.utility.showLog
@@ -66,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         } else {
-            binding.useBiometrics.visibility = View.INVISIBLE
+            binding.useBiometrics.visibility = View.GONE
         }
 
         if (ciphertextWrapper == null) {
@@ -191,4 +193,13 @@ class LoginActivity : AppCompatActivity() {
         binding.success.text = successMsg
     }
 
+    override fun onStart() {
+        super.onStart()
+        val loggedIn = Preferences.instance.getBooleanData("isLogged", false)
+        Log.d("$TAG -isLoggedIn", loggedIn.toString())
+        if (loggedIn) {
+            // User is logged in
+            updateApp("Already Logged in")
+        }
+    }
 }

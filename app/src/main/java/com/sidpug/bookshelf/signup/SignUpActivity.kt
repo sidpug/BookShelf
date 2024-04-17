@@ -1,7 +1,6 @@
 package com.sidpug.bookshelf.signup
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
@@ -16,9 +15,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.sidpug.bookshelf.R
 import com.sidpug.bookshelf.booklist.BookListActivity
 import com.sidpug.bookshelf.databinding.ActivitySignUpBinding
-import com.sidpug.bookshelf.login.LoginActivity
 import com.sidpug.bookshelf.utility.Preferences
-import com.sidpug.bookshelf.utility.getBooleanData
 import com.sidpug.bookshelf.utility.launchActivity
 import com.sidpug.bookshelf.utility.setBoolean
 
@@ -30,23 +27,6 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
-        val loggedIn = Preferences.instance.getBooleanData("isLogged", false)
-        Log.d("${TAG} -isLoggedIn", loggedIn.toString())
-        val isUserCreated = Preferences.instance.getBooleanData("isUserCreated", false)
-        Log.d("${TAG} -isUserCreatedIn", isUserCreated.toString())
-        if (loggedIn) {
-            // User is logged in
-            launchActivity<BookListActivity> {
-                finish()
-            }
-        } else {
-            if (isUserCreated) {
-                // User is created but not logged in
-                launchActivity<LoginActivity> {
-                    finish()
-                }
-            }
-        }
         initObservers()
         initApiCalls()
 
@@ -67,10 +47,12 @@ class SignUpActivity : AppCompatActivity() {
             arrayList?.let { countryList ->
                 setupSpinner(countryList)
             }
+        }
 
-            signUpViewModel.myCountryResult.observe(this) { country ->
-                val countryAvailable = arrayList?.find { it.equals(country, ignoreCase = true) }
-                if (countryAvailable != null) {
+        signUpViewModel.myCountryResult.observe(this) { country ->
+            signUpViewModel.countryResult.value?.data?.values?.map { it.country }?.toTypedArray()?.sortedArray()?.let { arrayList ->
+                val countryAvailable = arrayList.find { it.equals(country, ignoreCase = true) }
+                if (countryAvailable != null && !binding.countryDropdown.adapter.isEmpty) {
                     binding.countryDropdown.setSelection(arrayList.indexOf(country))
                 }
             }
@@ -118,7 +100,6 @@ class SignUpActivity : AppCompatActivity() {
             val signupResult = it ?: return@observe
             if (signupResult.success) {
                 Preferences.instance.setBoolean("isLogged", true)
-                Preferences.instance.setBoolean("isUserCreated", true)
                 launchActivity<BookListActivity> {
                     finish()
                 }

@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLay_emailAdd"
@@ -62,13 +62,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/password_hint"
         app:endIconMode="password_toggle"
-        app:layout_constraintWidth_max="488dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtLay_emailAdd"
+        app:layout_constraintWidth_max="488dp"
         app:layout_constraintWidth_percent="0.9">
 
         <com.google.android.material.textfield.TextInputEditText
