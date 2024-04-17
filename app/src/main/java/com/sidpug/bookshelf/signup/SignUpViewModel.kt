@@ -60,7 +60,7 @@ class SignUpViewModel : ViewModel() {
         return passwordRegex.matches(password)
     }
 
-    fun signup(email: String, username: String, password: String, country: String?) {
+    fun signup(email: String, username: String, password: String, country: String? = null) {
         if (isEmailValid(username) && isPasswordValid(password)) {
             // Normally this method would asynchronously send this to your server and your sever
             // would return a token. For high sensitivity apps such as banking, you would keep that

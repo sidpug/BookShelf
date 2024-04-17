@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="16dp"
     android:paddingTop="20dp"
-    android:layout_height="match_parent"
     tools:context=".booklist.BookListActivity">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -14,28 +14,10 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        app:srcCompat="@mipmap/ic_account"
-        app:shapeAppearanceOverlay="@style/circleImageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-
-    <TextView
-        android:id="@+id/ic_account2"
-        app:layout_constraintWidth_max="200dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/black"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@id/iv_logout"
-        app:layout_constraintStart_toEndOf="@id/ic_account"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circleImageView"
-
-        app:srcCompat="@mipmap/ic_account"
-        tools:text="Very BigVery BigVeryBigVeryBigVeryBigVeryBigVery Big" />
+        app:srcCompat="@mipmap/ic_account" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_logout"
@@ -53,20 +35,27 @@
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:queryHint="Search Book"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ic_account" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintGuide_percent="0.18" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
         tools:itemCount="5"
         tools:listitem="@layout/item_book" />
 

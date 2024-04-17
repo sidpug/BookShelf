@@ -3,18 +3,20 @@ package com.sidpug.bookshelf.bookdetail
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.sidpug.bookshelf.R
 import com.sidpug.bookshelf.adapter.TagListAdapter
 import com.sidpug.bookshelf.adapter.getRating
-import com.sidpug.bookshelf.database.entity.Book
+import com.sidpug.bookshelf.database.entity.BookWithBookmark
 import com.sidpug.bookshelf.databinding.ActivityBookDetailBinding
 import com.sidpug.bookshelf.databinding.DialogEditTextBinding
 import com.sidpug.bookshelf.utility.DateHelperInstance
@@ -30,6 +32,7 @@ class BookDetailActivity : AppCompatActivity() {
         binding = ActivityBookDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         detailsViewModel = getModelView(DetailsVM(application)) as DetailsVM
+        binding.bookDetailLayout
         binding.floatingIcon.setOnClickListener {
             showEditTextDialog(this)
         }
@@ -40,8 +43,23 @@ class BookDetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        initButtons()
         initData()
         initObserver()
+    }
+
+    private fun initButtons() {
+        binding.bookDetailLayout.favToggle.setOnClickListener {
+            detailsViewModel.setBookMark()
+        }
+    }
+
+    private fun updateBookMarkState() {
+        if (detailsViewModel.bookMarkState) {
+            binding.bookDetailLayout.favToggle.setImageResource(R.drawable.ic_fav_selected)
+        } else {
+            binding.bookDetailLayout.favToggle.setImageResource(R.drawable.ic_fav_unselected)
+        }
     }
 
     private fun initObserver() {
@@ -52,7 +70,8 @@ class BookDetailActivity : AppCompatActivity() {
                     tagAdapter = TagListAdapter(this)
                     binding.tagList.apply {
                         adapter = tagAdapter
-                        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     }
                     detailsViewModel.getTagData()
                 }
@@ -85,14 +104,21 @@ class BookDetailActivity : AppCompatActivity() {
                     tagAdapter.setData(it)
             }
         }
+
+        detailsViewModel.bookMarkUpdate.observe(
+            this
+        ) {
+            updateBookMarkState()
+        }
     }
 
-    private fun showBookDetails(book: Book) {
+    private fun showBookDetails(book: BookWithBookmark) {
         binding.bookDetailLayout.tvBookPublished.text =
-            DateHelperInstance.getDateTime(book.publishedChapterDate)
-        binding.bookDetailLayout.ivBookItemIcon.load(book.image)
-        binding.bookDetailLayout.tvBookItemRating.text = book.score.getRating()
-        binding.bookDetailLayout.tvBookItemTitle.text = book.title
+            DateHelperInstance.getDateTime(book.book.publishedChapterDate)
+        binding.bookDetailLayout.ivBookItemIcon.load(book.book.image)
+        binding.bookDetailLayout.tvBookItemRating.text = book.book.score.getRating()
+        binding.bookDetailLayout.tvBookItemTitle.text = book.book.title
+        updateBookMarkState()
     }
 
     private fun initData() {

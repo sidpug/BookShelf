@@ -5,6 +5,7 @@ import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.sidpug.bookshelf.adapter.BookListAdapter
 import com.sidpug.bookshelf.adapter.init
 import com.sidpug.bookshelf.bookdetail.BookDetailActivity
@@ -50,12 +51,12 @@ class BookListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             bookList.forEach { book ->
                 data.add(
                     BookItems(
-                        book.id,
-                        book.image,
-                        book.title,
-                        book.score,
-                        book.publishedChapterDate,
-                        isFavorite = false
+                        book.book.id,
+                        book.book.image,
+                        book.book.title,
+                        book.book.score,
+                        book.book.publishedChapterDate,
+                        isFavorite = book.isMarked ?: false
                     )
                 )
             }
@@ -83,10 +84,21 @@ class BookListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun setupRecyclerView() {
         // This will pass the ArrayList to our Adapter
 
-        listAdapter = BookListAdapter(this, data) { item ->
-            launchActivity<BookDetailActivity>{
-                putExtra("id", item.id)
+        listAdapter = BookListAdapter(this, data) { item, action, position ->
+            when(action) {
+                ListItemActions.FavToggle -> {
+                    lifecycleScope.launch {
+                        item.id?.let { bookListViewModel.updateBookItem(it, !item.isFavorite) }
+                        item.id?.let { updateBookItem(it, position) }
+                    }
+                }
+                ListItemActions.None -> {
+                    launchActivity<BookDetailActivity> {
+                    putExtra("id", item.id)
+                    }
+                }
             }
+
         }
         // Setting the Adapter with the recyclerview
         binding.recyclerview.apply {
@@ -100,6 +112,26 @@ class BookListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     }
 
+    private fun updateBookItem(bookId: String, position: Int) {
+        bookListViewModel.viewModelScope.launch {
+            bookListViewModel.getBookItem(bookId).also {
+                bookListViewModel.book.removeObservers(this@BookListActivity)
+                bookListViewModel.book.observe(this@BookListActivity) { book ->
+                    data[position] = BookItems(
+                        book.book.id,
+                        book.book.image,
+                        book.book.title,
+                        book.book.score,
+                        book.book.publishedChapterDate,
+                        isFavorite = book.isMarked ?: false
+                    )
+                    listAdapter.notifyItemChanged(position)
+                    bookListViewModel.book.removeObservers(this@BookListActivity)
+                }
+            }
+        }
+    }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
         return true
     }
@@ -111,5 +143,12 @@ class BookListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             return false
         }
         return false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            setupForBookList()
+        }
     }
 }

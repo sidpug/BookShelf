@@ -11,7 +11,7 @@ import com.sidpug.bookshelf.database.entity.User
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user")
-    suspend fun getAll(): List<User>
+    suspend fun getAll(): List<User> //maintain userid
 
     @Update
     suspend fun updateUsers(vararg users: User)

@@ -1,5 +1,6 @@
 package com.sidpug.bookshelf.adapter
 
+import android.app.Notification.Action
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.sidpug.bookshelf.R
+import com.sidpug.bookshelf.booklist.ListItemActions
 import com.sidpug.bookshelf.databinding.ItemBookBinding
 import com.sidpug.bookshelf.model.BookItems
 import com.sidpug.bookshelf.utility.DateHelperInstance
@@ -19,7 +22,7 @@ import java.math.RoundingMode
 class BookListAdapter(
     private val mContext: Context,
     private var list: MutableList<BookItems>,
-    private val onItemClick: (BookItems) -> Unit
+    private val onItemClick: (BookItems, ListItemActions, Int) -> Unit
 ) : AbstractAdapter(list, false), Filterable {
 
     private var arraylist = ArrayList<BookItems>()
@@ -31,7 +34,7 @@ class BookListAdapter(
     class BookHolder(binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root) {
         // Holds the TextView that will add each animal to
         val icon: ImageView = binding.ivBookItemIcon
-        val rightIcon: ImageView = binding.ivBookItemRightIcon
+        val rightIcon: ImageView = binding.favToggle
         val title: TextView = binding.tvBookItemTitle
         val rating: TextView = binding.tvBookItemRating
         val year: TextView = binding.tvBookPublished
@@ -58,13 +61,16 @@ class BookListAdapter(
                 icon.load(currentItem.icon)
             } else
                 icon.visibility = View.GONE
-            if (currentItem.rightIcon != null) {
+            if (currentItem.isFavorite) {
                 rightIcon.visibility = View.VISIBLE
-                rightIcon.load(currentItem.icon)
+                rightIcon.setImageResource(R.drawable.ic_fav_selected)
             } else
-                rightIcon.visibility = View.GONE
+                rightIcon.setImageResource(R.drawable.ic_fav_unselected)
+            rightIcon.setOnClickListener {
+                onItemClick(currentItem, ListItemActions.FavToggle, position)
+            }
             itemView.setOnClickListener {
-                onItemClick(currentItem)
+                onItemClick(currentItem, ListItemActions.None, position)
             }
         }
     }

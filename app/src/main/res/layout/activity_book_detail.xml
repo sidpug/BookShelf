@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".bookdetail.BookDetailActivity"
     android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
 
@@ -14,38 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <RatingBar
-        android:id="@+id/ratingBar_Design"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginStart="352dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="390dp"
-        android:numStars="1"
-        android:theme="@style/RatingBar"
-        app:layout_constraintBottom_toBottomOf="@+id/book_detail_layout"
-        app:layout_constraintEnd_toEndOf="@+id/book_detail_layout"
-        app:layout_constraintHorizontal_bias="0.93"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4"
-        tools:ignore="SpeakableTextPresentCheck" />
+<!--    <ImageView-->
+<!--        android:id="@+id/fav_toggle"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_margin="5dp"-->
+<!--        android:layout_marginStart="352dp"-->
+<!--        android:importantForAccessibility="no"-->
+<!--        android:layout_marginTop="48dp"-->
+<!--        android:layout_marginEnd="390dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/book_detail_layout"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/book_detail_layout"-->
+<!--        app:layout_constraintHorizontal_bias="0.93"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.4"-->
+<!--        android:src="@drawable/ic_fav_selected" />-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="35dp"
         android:backgroundTint="@color/colorGrey"
         android:src="@drawable/ic_add_black"
         app:fabSize="mini"
         app:layout_constraintEnd_toEndOf="@+id/book_detail_layout"
         app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar_Design"
+        app:layout_constraintTop_toBottomOf="@+id/book_detail_layout"
         android:contentDescription="@string/this_is_used_to_add_tags_or_annotation_to_a_book" />
 
     <androidx.recyclerview.widget.RecyclerView
